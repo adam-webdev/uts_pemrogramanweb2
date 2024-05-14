@@ -4,13 +4,17 @@ include_once 'koneksi.php';
 $id = $_GET['id'];
 
 if (isset($_POST['submit'])) {
-  $id_barang = $_POST['id'];
-  var_dump($id_barang);
+  $id_mhs = $_POST['id'];
+  $nim = $_POST['nim'];
+  $jurusan = $_POST['jurusan'];
+  $email = $_POST['email'];
   $nama = $_POST['nama'];
-  $harga_jual = $_POST['harga_jual'];
-  $harga_beli = $_POST['harga_beli'];
-  $stok = $_POST['stok'];
-  $kategori = $_POST['kategori'];
+  $no_hp = $_POST['no_hp'];
+  $tgl_lahir = $_POST['tgl_lahir'];
+  $tempat_lahir = $_POST['tempat_lahir'];
+  $alamat = $_POST['alamat'];
+  $jenis_kelamin = $_POST['jenis_kelamin'];
+  $agama = $_POST['agama'];
 
   $file_gambar = $_FILES['file_gambar'];
   $gambar = null;
@@ -22,12 +26,14 @@ if (isset($_POST['submit'])) {
     }
   }
 
-  $sql = 'UPDATE data_barang SET ';
-  $sql .= "nama = '{$nama}', kategori = '{$kategori}', ";
-  $sql .= "harga_jual = '{$harga_jual}', harga_beli = '{$harga_beli}', stok = '{$stok}' ";
+  $sql = 'UPDATE adam_mahasiswa SET ';
+  $sql .= "nama = '{$nama}', nim = '{$nim}', ";
+  $sql .= "no_hp = '{$no_hp}', jurusan = '{$jurusan}', agama = '{$agama}',";
+  $sql .= "tgl_lahir = '{$tgl_lahir}', tempat_lahir = '{$tempat_lahir}', jenis_kelamin = '{$jenis_kelamin}', ";
+  $sql .= "alamat = '{$alamat}', email = '{$email}' ";
   if (!empty($gambar))
-    $sql .= ", gambar = '{$gambar}' ";
-  $sql .= "WHERE id='{$id_barang}' ";
+    $sql .= ", foto = '{$gambar}' ";
+  $sql .= "WHERE id='{$id_mhs}' ";
   $result = mysqli_query($conn, $sql);
   header('location: index.php');
 
@@ -36,7 +42,7 @@ if (isset($_POST['submit'])) {
   // header('location: index.php');
 }
 
-$sql = "SELECT * FROM data_barang WHERE id='{$id}' ";
+$sql = "SELECT * FROM adam_mahasiswa WHERE id='{$id}' ";
 $result = mysqli_query($conn, $sql);
 if (!$result) die("Error : Data tidak tersedia");
 $data = mysqli_fetch_array($result);
@@ -56,48 +62,100 @@ function is_select($var, $val)
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-  <title>Ubah Barang</title>
+  <title>Ubah Data Mahasiswa</title>
 </head>
 
 <body>
   <div class="container">
-    <h1>Ubah Barang <?= $_GET['id'] ?></h1>
+    <h1>Ubah Data <?= $_GET['id'] ?></h1>
     <div class="form">
       <form action="" method="post" enctype="multipart/form-data">
         <div class="form-group col-md-6">
-          <label for="nama">Nama Barang :</label>
+          <label for="nim">Nim :</label>
+          <input type="text" name="nim" id="nim" value="<?= $data['nim'] ?>" class="form-control" readonly>
+        </div>
+        <div class="form-group col-md-6">
+          <label for="nama">Nama :</label>
           <input type="text" name="nama" id="nama" value="<?= $data['nama'] ?>" class="form-control">
         </div>
-        <div class="form-group mt-2 col-md-6">
-          <label for="kategori">Kategori :</label>
-          <select name="kategori" id="kategori" class="form-control ">
-            <option value="Komputer" <?php echo is_select("Komputer", $data["kategori"]); ?>>Komputer </option>
-            <option <?php echo is_select("Elektronik", $data["kategori"]); ?> value="Elektronik">Elektronik </option>
-            <option <?php echo is_select("Hand Phone", $data["kategori"]); ?> value="Hand Phone">Hand Phone </option>
-          </select>
-        </div>
-        <div class="form-group mt-2 col-md-6">
-          <label for="harga_jual mt-2 ">Harga Jual:</label>
-          <input type="text" name="harga_jual" value="<?= $data['harga_jual'] ?>" id="harga_jual" class="form-control">
-        </div>
-        <div class="form-group mt-2 col-md-6">
-          <label for="harga_beli">Harga Beli:</label>
-          <input type="text" value="<?= $data['harga_beli'] ?>" name="harga_beli" id="harga_beli" class="form-control">
-        </div>
-        <div class="form-group mt-2 col-md-6">
-          <label for="stok">Stok :</label>
-          <input type="number" value="<?= $data['stok'] ?>" name="stok" id="stok" class="form-control">
-        </div>
-        <div class="form-group mt-2 col-md-6">
-          <label for="file_gambar">File Gambar :</label>
-          <input type="file" name="file_gambar" id="file_gambar" class="form-control">
-        </div>
-        <input type="hidden" value="<?= $data['id'] ?>" name="id">
-        <div class="form-group mt-4 col-md-6">
-          <input type="submit" name="submit" value="Simpan" id="" class="btn btn-primary w-100">
-        </div>
-      </form>
     </div>
+    <div class="form-group mt-2 col-md-6">
+      <label for="email mt-2 ">Email:</label>
+      <input type="email" name="email" value="<?= $data['email'] ?>" id="email" class="form-control">
+    </div>
+    <div class="form-group mt-2 col-md-6">
+      <label for="no_hp mt-2 ">No Hp:</label>
+      <input type="number" name="no_hp" value="<?= $data['no_hp'] ?>" id="no_hp" class="form-control">
+    </div>
+    <div class="form-group mt-2 col-md-6">
+      <label for="tempat_lahir">Tempat Lahir:</label>
+      <input type="text" value="<?= $data['tempat_lahir'] ?>" name="tempat_lahir" id="tempat_lahir"
+        class="form-control">
+    </div>
+    <div class="form-group mt-2 col-md-6">
+      <label for="tgl_lahir">Tanggal Lahir:</label>
+      <input type="text" value="<?= $data['tgl_lahir'] ?>" name="tgl_lahir" id="tgl_lahir" class="form-control">
+    </div>
+
+    <div class="form-group mt-2 col-md-6">
+      <label for="jk">Jenis Kelamin :</label>
+      <select name="jenis_kelamin" id="jk" class="form-control ">
+        <option value="Laki-laki" <?php echo is_select("Laki-laki", $data["jenis_kelamin"]); ?>>Laki-laki </option>
+        <option value="Perempuan" <?php echo is_select("Perempuan", $data["jenis_kelamin"]); ?>>
+          Perempuan </option>
+      </select>
+    </div>
+
+    <div class="form-group mt-2 col-md-6">
+      <label for="jurusan">Jurusan :</label>
+      <select name="jurusan" id="jurusan" class="form-control ">
+        <option value="Teknik Informatika" <?php echo is_select("Teknik Informatika", $data["jurusan"]); ?>>Teknik
+          Informatika </option>
+        <option value="Teknik Industri" <?php echo is_select("Teknik Industri", $data["jurusan"]); ?>>Teknik
+          Industri </option>
+        <option value="Teknik Nuklir" <?php echo is_select("Teknik Nuklir", $data["jurusan"]); ?>>Teknik Nuklir
+        </option>
+        <option value="Teknik Lingkungan" <?php echo is_select("Teknik Lingkungan", $data["jurusan"]); ?>>Teknik
+          Lingkungan </option>
+        <option value="Hukum" <?php echo is_select("Hukum", $data["jurusan"]); ?>>Hukum </option>
+        <option value="Manajemen" <?php echo is_select("Manajemen", $data["jurusan"]); ?>>Manajemen </option>
+        <option value="PGSD" <?php echo is_select("PGSD", $data["jurusan"]); ?>>PGSD </option>
+        <option value="Sastra Inggris" <?php echo is_select("Sastra Inggris", $data["jurusan"]); ?>>Sastra Inggris
+        </option>
+        <option value="Sastra Korea" <?php echo is_select("Sastra Korea", $data["jurusan"]); ?>>Sastra Korea
+        </option>
+        <option value="Sastra Jepang" <?php echo is_select("Sastra Jepang", $data["jurusan"]); ?>>Sastra Jepang
+        </option>
+
+      </select>
+    </div>
+
+
+    <div class="form-group mt-2 col-md-6">
+      <label for="agama">Agama :</label>
+      <select name="agama" id="agama" class="form-control ">
+        <option value="Islam" <?php echo is_select("Islam", $data["agama"]); ?>>Islam </option>
+        <option value="Kristen" <?php echo is_select("Kristen", $data["agama"]); ?>>Kristen </option>
+        <option value="Hindu" <?php echo is_select("Hindu", $data["agama"]); ?>>Hindu </option>
+        <option value="Buddha" <?php echo is_select("Buddha", $data["agama"]); ?>>Budha </option>
+        <option value="Konghucu" <?php echo is_select("Konghucu", $data["agama"]); ?>>Konghucu </option>
+      </select>
+    </div>
+
+    <div class="form-group mt-2 col-md-6">
+      <label for="alamat">Alamat :</label>
+      <textarea rows="5" name="alamat" id="alamat" class="form-control"><?= $data['alamat'] ?></textarea>
+    </div>
+    <div class="form-group mt-2 col-md-6">
+      <label for="file_gambar">File Gambar :</label>
+      <input type="file" name="file_gambar" id="file_gambar" class="form-control">
+    </div>
+    <input type="hidden" value="<?= $data['id'] ?>" name="id">
+    <div class="form-group mt-4 col-md-6">
+      <input type="submit" name="submit" value="Simpan" id="" class="btn btn-primary w-100">
+    </div>
+    </form>
+  </div>
   </div>
 </body>
 

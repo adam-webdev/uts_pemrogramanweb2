@@ -1,7 +1,7 @@
 <?php
 include("koneksi.php");
 
-$sql = 'SELECT * FROM data_barang';
+$sql = 'SELECT * FROM adam_mahasiswa';
 $result = mysqli_query($conn, $sql);
 
 ?>
@@ -21,19 +21,23 @@ $result = mysqli_query($conn, $sql);
   <div class="container mt-4">
     <div class="d-flex justify-content-between">
 
-      <h1>Data Barang Konter Indo</h1>
-      <a href="tambah.php" class="btn btn-primary mb-4">+ Tambah Barang</a>
+      <h1>Data Mahasiswa Universitas Harvard Cabang Tambun</h1>
+      <a href="tambah.php" class="btn btn-primary mb-4">+ Tambah Mahasiswa</a>
     </div>
     <div class="main">
       <table class="table table-bordered table-striped">
         <tr>
           <th>No</th>
-          <th>Gambar</th>
-          <th>Nama Barang</th>
-          <th>Kategori</th>
-          <th>Harga Jual</th>
-          <th>Harga Beli</th>
-          <th>Stok</th>
+          <th>Foto</th>
+          <th>Nim</th>
+          <th>Nama </th>
+          <th>Email</th>
+          <th>Jurusan</th>
+          <th>Tempat Lahir</th>
+          <th>No HP</th>
+          <th>Agama</th>
+          <th>Jenis Kelamin</th>
+          <th>Alamat</th>
           <th>Aksi</th>
         </tr>
         <?php if ($result) : ?>
@@ -41,14 +45,19 @@ $result = mysqli_query($conn, $sql);
         <?php while ($row = mysqli_fetch_array($result)) : ?>
         <tr>
           <td><?= $no++ ?></td>
-          <td><img width="100px" src="<?= $row['gambar']; ?>" alt="<?= $row['nama']; ?>"></td>
+          <td><img width="100px" src="<?= $row['foto']; ?>" alt="<?= $row['nama']; ?>"></td>
+          <td><?= $row['nim']; ?></td>
           <td><?= $row['nama']; ?></td>
-          <td><?= $row['kategori']; ?></td>
-          <td><?= $row['harga_beli']; ?></td>
-          <td><?= $row['harga_jual']; ?></td>
-          <td><?= $row['stok']; ?></td>
-          <td><a type="button" class="btn btn-sm btn-secondary mr-2" href="ubah.php?id=<?= $row['id']; ?>">Edit</a>
-            <a type="button" class="btn btn-sm btn-danger" href="hapus.php?id=<?= $row['id']; ?>">Hapus</a>
+          <td><?= $row['email']; ?></td>
+          <td><?= $row['jurusan']; ?></td>
+          <td><?= $row['tempat_lahir']; ?>, <?= $row['tgl_lahir']; ?></td>
+          <td><?= $row['no_hp']; ?></td>
+          <td><?= $row['agama']; ?></td>
+          <td><?= $row['jenis_kelamin']; ?></td>
+          <td><?= $row['alamat']; ?></td>
+          <td><a type="button" class="btn btn-sm btn-secondary mt-2 mr-2" href="ubah.php?id=<?= $row['id']; ?>">Edit</a>
+            <a type="button" onclick="return confirm('yakin ingin menghapus data ini? ')"
+              class="btn btn-sm btn-danger mt-2" href="hapus.php?id=<?= $row['id']; ?>">Hapus</a>
           </td>
         </tr>
         <?php endwhile;
